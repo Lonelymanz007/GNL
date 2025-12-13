@@ -12,29 +12,29 @@
 
 #include "get_next_line.h"
 
-char *read_line(int fd, char *stash)
+char	*read_line(int fd, char *stash)
 {
-    char    *buffer;
-    ssize_t bytes_read;
-    char    *temp;
+	char	*buffer;
+	ssize_t	bytes_read;
+	char	*temp;
 
-    buffer = (char *)malloc(BUFFER_SIZE + 1);
-    if (!buffer)
-        return (NULL);
-    bytes_read = 1;
-    while (!ft_strchr(stash, '\n') && bytes_read != 0)
-    {
-        bytes_read = read(fd, buffer, BUFFER_SIZE);
-        if (bytes_read == -1)
-        {
-            free(buffer);
-            return (NULL);
-        }
-        buffer[bytes_read] = '\0';
-        temp = stash;
-        stash = ft_strjoin(stash, buffer);
-        free(temp);
-    }
-    free(buffer);
-    return (stash);
+	buffer = (char *)malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (NULL);
+	bytes_read = 1;
+	while (!ft_strchr(stash, '\n') && bytes_read != 0)
+	{
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read == -1)
+		{
+			free(buffer);
+			return (NULL);
+		}
+		buffer[bytes_read] = '\0';
+		temp = stash;
+		stash = ft_strjoin(stash, buffer);
+		free(temp);
+	}
+	free(buffer);
+	return (stash);
 }
