@@ -64,6 +64,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	res[len1 + len2] = '\0';
 	return (res);
 }
+
 char	*ft_strdup(const char *s1)
 {
 	char	*dest;
