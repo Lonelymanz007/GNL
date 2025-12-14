@@ -82,6 +82,7 @@ char	*ft_strdup(const char *s1)
 	dest[i] = '\0';
 	return (dest);
 }
+
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*temp;
