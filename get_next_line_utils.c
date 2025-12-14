@@ -64,3 +64,44 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	res[len1 + len2] = '\0';
 	return (res);
 }
+char	*ft_strdup(const char *s1)
+{
+	char	*dest;
+	size_t	i;
+
+	dest = (char *)malloc(ft_strlen(s1) + 1);
+	i = 0;
+	if (!dest)
+		return (NULL);
+	while (s1[i])
+	{
+		dest[i] = s1[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*temp;
+	size_t	i;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	if (start >= ft_strlen(s))
+		len = 0;
+	if (ft_strlen(s) - start < len)
+		len = ft_strlen(s) - start;
+	temp = malloc(sizeof(char) * (len + 1));
+	if (!temp)
+		return (NULL);
+	while (i < len)
+	{
+		temp[i] = s[start];
+		i++;
+		start++;
+	}
+	temp[i] = '\0';
+	return (temp);
+}
