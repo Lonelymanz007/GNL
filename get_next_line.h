@@ -26,8 +26,13 @@
 #  define FD_MAX 1024
 # endif
 
+char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
-char	*ft_strrchr(const char *s, int c);
+char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strdup(const char *s1);
+void	clear(char **str);
+static char *readline(int fd, char **buffer, char *rdreturn);
+static char *eoljoin(ssize_t len, char **buffer);
 
 #endif

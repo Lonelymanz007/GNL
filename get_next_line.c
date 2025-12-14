@@ -12,29 +12,80 @@
 
 #include "get_next_line.h"
 
-char	*read_line(int fd, char *stash)
+char *get_next_line(int fd)
 {
-	char	*buffer;
-	ssize_t	bytes_read;
-	char	*temp;
+    static char *buffer[1024];
+    char *rdreturn;
+    char *out;
 
-	buffer = (char *)malloc(BUFFER_SIZE + 1);
-	if (!buffer)
-		return (NULL);
-	bytes_read = 1;
-	while (!ft_strchr(stash, '\n') && bytes_read != 0)
-	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read == -1)
-		{
-			free(buffer);
-			return (NULL);
-		}
-		buffer[bytes_read] = '\0';
-		temp = stash;
-		stash = ft_strjoin(stash, buffer);
-		free(temp);
-	}
-	free(buffer);
-	return (stash);
+    if (fd < 0 || BUFFER_SIZE <= 0 || fd > 1024)
+        return (NULL);
+    rdreturn = malloc(BUFFER_SIZE + 1);
+    if (!rdreturn)
+        return (NULL);
+    if (!buffer[fd])
+        buffer[fd] = ft_strdup("");
+    out = realine(fd, &buffer[fd], rdreturn);
+    clear(&rdreturn);
+    return(out);
 }
+static char *readline(int fd, char *buffer, char *rdreturn)
+{
+    ssize_t bytesread;
+    char *temp;
+    char *newline;
+
+    nl = ft_strchr(buffer, '\n');
+    tmp = NULL;
+    bytesread = 0;
+    while(!nl)
+    {
+        bytesread = read(fd, rdreturn, BUFFER_SIZE);
+        if(bytesread < 0)
+        {
+            clear(buffer);
+            return(NULL);
+        }
+        if(bytesread == 0)
+            return(eoljoin(bytesread, buffer));
+        rdreturn[bytesread] = 0;
+        temp = ft_strjoin(*buffer, rdreturn);
+        clear(buffer);
+        *buffer = temp;
+        nl = ft_strchr(*buffer, '\n');
+    }
+    return (eoljoin(newline - *buffer + 1, buffer ));
+}
+static char *eoljoin(ssize_t len, char **buffer)
+{
+    char *out;
+    char *temp;
+
+    temp = NULL;
+    if(len <= 0)
+    {
+        if(**buffer == '\0')
+        {
+            free(*buffer);
+            *buffer = NULL;
+            return (NULL);
+        }
+        out = *buffer;
+        *buffer = NULL;
+        return (out);
+    }
+
+        tmp = ft_substr(*buffer, len, BUFFER_SIZE);
+        out = *buffer;
+        out[len] = 0;
+        *buffer = temp;
+        return(out);
+}
+static void clear(char **str)
+{
+    if(*p != NULL)
+    {
+        free(*str);
+        *str = NULL;
+    }
+}   
