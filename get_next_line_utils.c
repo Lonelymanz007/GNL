@@ -107,3 +107,46 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	temp[i] = '\0';
 	return (temp);
 }
+t_gnl_node *attact_new_node(t_gnl_node **head, int fd)
+{
+	t_gnl_node *new_node;
+
+	new_node = *head;
+	while (new_node)
+	{
+		if (new_node->fd == fd)
+			return (new_node);
+		new_node = new_node->next;
+	}
+	new_node = (t_gnl_node *)malloc(sizeof(t_gnl_node));
+	if (!new_node)
+		return (NULL);
+	new_node->fd = fd;
+	new_node->buffer = NULL;
+	new_node->next = *head;
+	*head = new_node;
+	return (new_node);
+}
+void remove_node(t_gnl_node **head, int fd)
+{
+	t_gnl_node *current;
+	t_gnl_node *previous;
+
+	current = *head;
+	previous = NULL;
+	while (current)
+	{
+		if (current->fd == fd)
+		{
+			if (previous)
+				previous->next = current->next;
+			else
+				*head = current->next;
+			free(current->buffer);
+			free(current);
+			return;
+		}
+		previous = current;
+		current = current->next;
+	}
+}
